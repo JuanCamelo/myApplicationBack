@@ -1,6 +1,8 @@
 ﻿using ApplicationDomian.Models;
 using ApplicationDomian.Repository.Contact;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace ApplicationDomian.Repository
 {
@@ -17,6 +19,25 @@ namespace ApplicationDomian.Repository
             try
             {
                 return await _context.Set<TEntity>().ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAll<T>(Expression<Func<TEntity, bool>>? whereCondition = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? includes = null) where T : class
+        {
+            try
+            {
+                IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
+                if (includes != null)
+                    query = includes(query);
+                if (whereCondition != null)
+                    query = query.Where(whereCondition);
+
+                return await query.ToListAsync();
             }
             catch (Exception)
             {
@@ -44,11 +65,23 @@ namespace ApplicationDomian.Repository
             {
                 bool created = false;
                 var save = await _context.Set<TEntity>().AddAsync(model);
-                await _context.SaveChangesAsync();
                 if (save != null)
                     created = true;
                 return created;
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task Save()
+        {
+            try
+            {
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {

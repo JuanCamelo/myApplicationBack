@@ -40,7 +40,7 @@ public partial class MyApplicationDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
-            entity.Property(e => e.Type).HasMaxLength(20);
+            entity.Property(e => e.Type).HasMaxLength(50);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
         });
 
@@ -51,7 +51,7 @@ public partial class MyApplicationDbContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreationDate).HasColumnType("datetime");
             entity.Property(e => e.Gmail)
-                .HasMaxLength(10)
+                .HasMaxLength(30)
                 .IsFixedLength();
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.User1)

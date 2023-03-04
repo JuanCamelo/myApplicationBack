@@ -14,7 +14,7 @@ namespace WebApplicationApi.DI
             _ = service ?? throw new ArgumentNullException(nameof(service));
 
             service.AddTransient<IUserApplicationServices, UserApplicationServices>();
-            service.AddSingleton(typeof(IApplicationDomainRepository<>), typeof(ApplicationDomainRepository<>));
+            service.AddScoped(typeof(IApplicationDomainRepository<>), typeof(ApplicationDomainRepository<>));
 
             return service;
         }

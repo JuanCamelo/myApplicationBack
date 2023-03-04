@@ -1,4 +1,8 @@
+using ApplicationServices.Automapper;
+using ApplicationServices.DTOs.Models;
+using FluentValidation.AspNetCore;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using WebApplicationApi.DI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +15,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDependencyInjeccion();
 builder.Services.AddServicesContext(builder.Configuration);
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddDependencyInjeccionMapper();
+builder.Services.AddMvc()
+              .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddValidator>())
+              .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 
 var app = builder.Build();
 

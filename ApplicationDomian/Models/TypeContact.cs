@@ -7,7 +7,7 @@ public partial class TypeContact
 {
     public Guid Id { get; set; }
 
-    public byte[] Type { get; set; } = null!;
+    public string Type { get; set; } = null!;
 
     public DateTime CreateDate { get; set; }
 
