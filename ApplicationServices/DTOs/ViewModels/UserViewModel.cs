@@ -6,7 +6,7 @@
 
         public string UserName { get; set; } = null!;
 
-        public string User1 { get; set; } = null!;
+        public string User { get; set; } = null!;
 
         public string Position { get; set; }
 
