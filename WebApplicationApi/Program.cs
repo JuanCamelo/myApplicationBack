@@ -1,11 +1,24 @@
 using ApplicationServices.Automapper;
 using ApplicationServices.DTOs.Models;
 using FluentValidation.AspNetCore;
-using System.Reflection;
 using System.Text.Json.Serialization;
 using WebApplicationApi.DI;
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200",
+                                              "https://localhost:4200");
+                          policy.AllowAnyMethod();
+                          policy.AllowAnyHeader();
+                      });
+});
+
 
 // Add services to the container.
 
@@ -20,6 +33,7 @@ builder.Services.AddMvc()
               .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddValidator>())
               .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,8 +45,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+

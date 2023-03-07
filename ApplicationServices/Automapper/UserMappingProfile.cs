@@ -12,6 +12,7 @@ namespace ApplicationServices.Automapper
         {
             CreateMap<User, UserViewModel>()
                 .ForMember(c => c.Position,opt => opt.MapFrom(src => src.IdPositionNavigation.Name))
+                .ForMember(c => c.User, opt => opt.MapFrom(src => src.User1))
                 .ForMember(c => c.TypeContact, opt => opt.MapFrom(src => src.IdTypeContactNavigation.Type));
 
             CreateMap<UserModel, User>()
