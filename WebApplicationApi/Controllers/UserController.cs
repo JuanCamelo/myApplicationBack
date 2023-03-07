@@ -1,7 +1,6 @@
 ﻿using ApplicationServices.DTOs.Models;
 using ApplicationServices.Services.Contract;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace WebApplicationApi.Controllers
 {
